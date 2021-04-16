@@ -25,9 +25,8 @@ function ShelfSelect() {
         <NativeSelect
           value={shelf}
           onChange={handleShelfChange}
-          name="age"
+          name="shelf"
           className={classes.selectEmpty}
-          inputProps={{ "aria-label": "age" }}
         >
           <option value={"currentlyReading"}>Currently Reading</option>
           <option value={"read"}>Read</option>

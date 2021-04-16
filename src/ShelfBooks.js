@@ -1,16 +1,6 @@
-import {
-  Box,
-  makeStyles,
-  Grid,
-  Paper,
-  CardContent,
-  Typography,
-  CardMedia,
-  Card,
-} from "@material-ui/core";
-import { useState } from "react";
-
+import { Box, makeStyles, Grid } from "@material-ui/core";
 import BookItem from "./BookItem.js";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -34,26 +24,28 @@ const useStyles = makeStyles((theme) => ({
     // color: "red",
     fontWeight: 600,
   },
+  shelfBooks: {
+    marginTop: 50,
+  },
 }));
 
-function ShelfBooks() {
+function ShelfBooks({ allBooks, onBookShelfChange }) {
   const classes = useStyles();
-  const [shelf, setShelf] = useState("currentlyReading");
-  const handleShelfChange = (e) => setShelf(e.target.value);
 
   return (
-    <Box component="div" m={1}>
-      <Grid container spacing={4}>
-        <BookItem />
-        <BookItem />
-        <BookItem />
-        <BookItem />
-        <BookItem />
-        <BookItem />
-        <BookItem />
-        <BookItem />
-        <BookItem />
-        <BookItem />
+    <Box component="div" m={1} className={classes.shelfBooks}>
+      <Grid container spacing={6}>
+        {allBooks.map((book, index) => (
+          <BookItem
+            key={index}
+            id={book.id}
+            title={book.title}
+            shelf={book.shelf}
+            image={book.imageLinks.thumbnail}
+            authors={book.authors.join(",")}
+            onBookShelfChange={onBookShelfChange}
+          />
+        ))}
       </Grid>
     </Box>
   );
