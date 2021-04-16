@@ -1,8 +1,15 @@
-import logo from "./logo.svg";
 import "./App.css";
 
 import { useEffect } from "react";
+
+import { Container } from "@material-ui/core";
+
 import * as BookAPI from "./services/BooksAPI.js";
+import Header from "./Header.js";
+import ShelfSelect from "./ShelfSelect.js";
+import ShelfBooks from "./ShelfBooks";
+
+import "fontsource-roboto";
 
 function App() {
   useEffect(() => {
@@ -28,23 +35,13 @@ function App() {
     searchReact();
     fetchAllBooks();
   }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container className="App" maxWidth="xl">
+      <Header />
+      <ShelfSelect />
+      <ShelfBooks />
+    </Container>
   );
 }
 
