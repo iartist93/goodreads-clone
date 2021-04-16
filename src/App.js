@@ -13,9 +13,12 @@ import "fontsource-roboto";
 
 function App() {
   const [allBooks, setAllBooks] = useState([]);
+
   const [currentlyReadingShelf, setCurrentlyReadingShelf] = useState([]);
   const [readShelf, setReadShelf] = useState([]);
   const [wantToReadShelf, setWantToReadShelf] = useState([]);
+
+  const [currentShelf, setCurrentShelf] = useState("currentlyReading");
 
   const fetchAllBooks = async () => {
     const allBooks = await BookAPI.getAll();
@@ -25,7 +28,7 @@ function App() {
 
   const handleBookShelfChange = async (bookID, shelf) => {
     const book = await BookAPI.get(bookID);
-    const shelves = await BookAPI.update(book, shelf);
+    await BookAPI.update(book, shelf);
     await fetchAllBooks();
   };
 
@@ -42,8 +45,12 @@ function App() {
     <Container className="App" maxWidth="xl">
       <Header />
       <Box margin={2.4}>
-        <ShelfSelect />
+        <ShelfSelect
+          currentShelf={currentShelf}
+          onShelfChange={setCurrentShelf}
+        />
         <ShelfBooks
+          currentShelf={currentShelf}
           allBooks={allBooks}
           onBookShelfChange={handleBookShelfChange}
         />

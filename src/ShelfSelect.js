@@ -14,16 +14,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ShelfSelect() {
+function ShelfSelect({ currentShelf, onShelfChange }) {
   const classes = useStyles();
-  const [shelf, setShelf] = useState("currentlyReading");
-  const handleShelfChange = (e) => setShelf(e.target.value);
+  const handleShelfChange = (e) => onShelfChange(e.target.value);
 
   return (
     <Box component="div" m={1}>
       <FormControl className={classes.formControl}>
         <NativeSelect
-          value={shelf}
+          value={currentShelf}
           onChange={handleShelfChange}
           name="shelf"
           className={classes.selectEmpty}
