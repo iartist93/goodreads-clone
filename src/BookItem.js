@@ -19,7 +19,7 @@ import {
   MoveToInbox as InboxIcon,
 } from "@material-ui/icons";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,14 +44,28 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function BookItem({ id, title, shelf, image, authors, onBookShelfChange }) {
-  console.log(`Update ${title} shelf to ${shelf}`);
   const classes = useStyles();
 
   const [anchorEl, setAnchorEl] = useState(null);
+  const [currentShelf, setCurrentShelf] = useState(shelf);
+  const [shelfTitle, setShelfTitle] = useState(" ");
+
+  useEffect(() => {
+    const title =
+      currentShelf === "currentlyReading"
+        ? "Currently Reading"
+        : currentShelf === "read"
+        ? "Read"
+        : currentShelf === "wantToRead"
+        ? "Want To Read"
+        : "No Shelf";
+    setShelfTitle(title);
+  }, [currentShelf]);
 
   const handleChange = (value) => {
     onBookShelfChange(id, value);
-    console.log(`Book ${title} changed to ${value}`);
+    setCurrentShelf(value);
+    console.log(`Value = ${value}`);
     handleClose();
   };
 
@@ -93,15 +107,6 @@ function BookItem({ id, title, shelf, image, authors, onBookShelfChange }) {
       },
     },
   }))(MenuItem);
-
-  const shelfTitle =
-    shelf === "currentlyReading"
-      ? "Currently Reading"
-      : shelf === "read"
-      ? "Read"
-      : shelf === "wantToRead"
-      ? "Want To Read"
-      : " ";
 
   return (
     <Grid item xs={12} sm={6} md={4} lg={3}>
@@ -146,6 +151,12 @@ function BookItem({ id, title, shelf, image, authors, onBookShelfChange }) {
                   <InboxIcon fontSize="small" />
                 </ListItemIcon>
                 <ListItemText primary="Want to Read" />
+              </StyledMenuItem>
+              <StyledMenuItem onClick={() => handleChange("none")}>
+                <ListItemIcon>
+                  <InboxIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText primary="No Shelf" />
               </StyledMenuItem>
             </StyledMenu>
           </Box>

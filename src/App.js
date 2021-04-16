@@ -1,23 +1,15 @@
 import "./App.css";
-
 import { useEffect, useState } from "react";
-
-import { Container, Box } from "@material-ui/core";
-
 import * as BookAPI from "./services/BooksAPI.js";
-import Header from "./Header.js";
-import ShelfSelect from "./ShelfSelect.js";
-import ShelfBooks from "./ShelfBooks";
-
 import "fontsource-roboto";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import Homepage from "./Homepage";
+import SearchPage from "./SearchPage.js";
+import { Box } from "@material-ui/core";
 
 function App() {
   const [allBooks, setAllBooks] = useState([]);
-
-  const [currentlyReadingShelf, setCurrentlyReadingShelf] = useState([]);
-  const [readShelf, setReadShelf] = useState([]);
-  const [wantToReadShelf, setWantToReadShelf] = useState([]);
-
+  const [searchResult, setSearchResult] = useState([]);
   const [currentShelf, setCurrentShelf] = useState("currentlyReading");
 
   const fetchAllBooks = async () => {
@@ -32,30 +24,44 @@ function App() {
     await fetchAllBooks();
   };
 
-  const searchReact = async () => {
-    const result = await BookAPI.search("React");
+  const searchBook = async (query) => {
+    const result = await BookAPI.search(query);
+    console.log("---------------> Search Results");
     console.log(result);
+    if (result && Array.isArray(result)) {
+      const modifiedResult = result.map((currentBook) => {
+        const found = allBooks.find((book) => book.id === currentBook.id);
+        if (found) currentBook.shelf = found.shelf;
+        return currentBook;
+      });
+      setSearchResult(modifiedResult);
+      console.log(modifiedResult);
+    }
   };
 
   useEffect(() => {
     fetchAllBooks();
+    searchBook();
   }, []);
 
   return (
-    <Container className="App" maxWidth="xl">
-      <Header />
-      <Box margin={2.4}>
-        <ShelfSelect
+    <Router>
+      <Route exact path="/">
+        <Homepage
           currentShelf={currentShelf}
-          onShelfChange={setCurrentShelf}
-        />
-        <ShelfBooks
-          currentShelf={currentShelf}
-          allBooks={allBooks}
+          setCurrentShelf={setCurrentShelf}
+          bookList={allBooks}
           onBookShelfChange={handleBookShelfChange}
         />
-      </Box>
-    </Container>
+      </Route>
+      <Route exact path="/search">
+        <SearchPage
+          bookList={searchResult}
+          onSearch={searchBook}
+          onBookShelfChange={handleBookShelfChange}
+        />
+      </Route>
+    </Router>
   );
 }
 

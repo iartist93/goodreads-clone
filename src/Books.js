@@ -1,5 +1,10 @@
-import { Box, makeStyles, Grid } from "@material-ui/core";
-import { CropSquareRounded } from "@material-ui/icons";
+import {
+  Box,
+  makeStyles,
+  Grid,
+  Typography,
+  Container,
+} from "@material-ui/core";
 import BookItem from "./BookItem.js";
 
 const useStyles = makeStyles((theme) => ({
@@ -28,30 +33,46 @@ const useStyles = makeStyles((theme) => ({
   shelfBooks: {
     marginTop: 50,
   },
+  noBooks: {
+    textAlign: "center",
+    color: "#4A5F9EBB",
+  },
 }));
 
-function ShelfBooks({ allBooks, onBookShelfChange, currentShelf }) {
+function Books({ bookList, onBookShelfChange, currentShelf }) {
   const classes = useStyles();
+
+  const filteredBooks = bookList
+    ? currentShelf
+      ? bookList.filter((book) => book.shelf === currentShelf)
+      : bookList
+    : [];
 
   return (
     <Box component="div" m={1} className={classes.shelfBooks}>
       <Grid container spacing={6}>
-        {allBooks
-          .filter((book) => book.shelf === currentShelf)
-          .map((book, index) => (
+        {filteredBooks.length > 0 &&
+          filteredBooks.map((book, index) => (
             <BookItem
               key={index}
               id={book.id}
               title={book.title}
               shelf={book.shelf}
               image={book.imageLinks.thumbnail}
-              authors={book.authors.join(",")}
+              authors={book.authors ? book.authors.join(",") : ""}
               onBookShelfChange={onBookShelfChange}
             />
           ))}
+        {filteredBooks.length === 0 && (
+          <Container>
+            <Typography variant="h4" component="h4" className={classes.noBooks}>
+              No Book Here Yet!
+            </Typography>
+          </Container>
+        )}
       </Grid>
     </Box>
   );
 }
 
-export default ShelfBooks;
+export default Books;
