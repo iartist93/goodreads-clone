@@ -5,7 +5,6 @@ import "fontsource-roboto";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Homepage from "./Homepage";
 import SearchPage from "./SearchPage.js";
-import { Box } from "@material-ui/core";
 
 function App() {
   const [allBooks, setAllBooks] = useState([]);
@@ -14,7 +13,7 @@ function App() {
 
   const fetchAllBooks = async () => {
     const allBooks = await BookAPI.getAll();
-    console.log(allBooks);
+    // console.log(allBooks);
     setAllBooks(allBooks);
   };
 
@@ -35,7 +34,9 @@ function App() {
         return currentBook;
       });
       setSearchResult(modifiedResult);
-      console.log(modifiedResult);
+      // console.log(modifiedResult);
+    } else {
+      setSearchResult([]);
     }
   };
 

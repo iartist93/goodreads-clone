@@ -5,7 +5,6 @@ import {
   Typography,
   CardMedia,
   Card,
-  Box,
   Button,
   Menu,
   MenuItem,
@@ -30,42 +29,47 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     flex: "1 0 auto",
+    maxWidth: 190,
   },
   cover: {
     minWidth: 120,
     height: 180,
   },
-  h6: {
+  title: {
     fontWeight: 600,
+    // color: "#183A37",
+    color: "#2F2542",
+    // width: "85%",
   },
   shelf: {
-    color: "black",
+    color: "#3B1D6E",
+    fontWeight: 600,
+  },
+  bookDetails: {
+    flex: 1,
   },
 }));
+
+const shelfTitle = {
+  currentlyReading: "Currently Reading",
+  read: "Read",
+  wantToRead: "Want to Read",
+};
 
 function BookItem({ id, title, shelf, image, authors, onBookShelfChange }) {
   const classes = useStyles();
 
   const [anchorEl, setAnchorEl] = useState(null);
-  const [currentShelf, setCurrentShelf] = useState(shelf);
-  const [shelfTitle, setShelfTitle] = useState(" ");
+  const [currentShelf, setCurrentShelf] = useState(null);
 
   useEffect(() => {
-    const title =
-      currentShelf === "currentlyReading"
-        ? "Currently Reading"
-        : currentShelf === "read"
-        ? "Read"
-        : currentShelf === "wantToRead"
-        ? "Want To Read"
-        : "No Shelf";
-    setShelfTitle(title);
-  }, [currentShelf]);
+    // console.log(`{${title}} is {${shelf}}`);
+    setCurrentShelf(shelf);
+  }, [shelf, title]);
 
   const handleChange = (value) => {
     onBookShelfChange(id, value);
     setCurrentShelf(value);
-    console.log(`Value = ${value}`);
     handleClose();
   };
 
@@ -111,21 +115,27 @@ function BookItem({ id, title, shelf, image, authors, onBookShelfChange }) {
   return (
     <Grid item xs={12} sm={6} md={4} lg={3}>
       <Card className={classes.root} elevation={0}>
-        <CardMedia
-          className={classes.cover}
-          image={image}
-          title="Live from space album cover"
-        />
+        <CardMedia className={classes.cover} image={image} title={title} />
         <CardContent className={classes.content}>
-          <Typography variant="subtitle1" className={classes.h6}>
-            {title}
-          </Typography>
-          <Typography variant="subtitle2" color="textSecondary">
-            {authors}
-          </Typography>
-          <Box>
-            <Button className={classes.shelf} onClick={handleOpen}>
-              {shelfTitle}
+          <div className={classes.bookDetails}>
+            <Typography
+              variant="subtitle1"
+              className={classes.title}
+              gutterBottom
+            >
+              {title.split(" ").slice(0, 7).join(" ")}
+            </Typography>
+            <Typography variant="subtitle2" color="textSecondary" gutterBottom>
+              {authors}
+            </Typography>
+          </div>
+          <div>
+            <Button
+              className={classes.shelf}
+              onClick={handleOpen}
+              variant="text"
+            >
+              {shelfTitle[currentShelf] || "No Shelf"}
             </Button>
             <StyledMenu
               id="customized-menu"
@@ -159,7 +169,7 @@ function BookItem({ id, title, shelf, image, authors, onBookShelfChange }) {
                 <ListItemText primary="No Shelf" />
               </StyledMenuItem>
             </StyledMenu>
-          </Box>
+          </div>
         </CardContent>
       </Card>
     </Grid>

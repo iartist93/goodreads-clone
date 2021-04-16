@@ -50,7 +50,7 @@ function Header() {
           <Search fontSize="large" />
         </IconButton>
         <IconButton edge="end" onClick={handleProfile} color="inherit">
-          <AccountCircle fontSize="large" />
+          <AccountCircle fontSize="large" style={{ color: "#B994FF" }} />
         </IconButton>
       </Toolbar>
     </AppBar>

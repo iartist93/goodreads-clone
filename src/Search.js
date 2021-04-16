@@ -1,3 +1,5 @@
+import React from "react";
+
 import {
   Container,
   Paper,
@@ -45,7 +47,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const areEqual = (prevProps, nextProps) => true;
+
 function Search({ onInputChange }) {
+  console.log("Search is rendering .......................................");
+
   const classes = useStyles();
   return (
     <div>
@@ -66,4 +72,4 @@ function Search({ onInputChange }) {
   );
 }
 
-export default Search;
+export default React.memo(Search, areEqual);

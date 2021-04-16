@@ -35,10 +35,13 @@ const useStyles = makeStyles((theme) => ({
   },
   noBooks: {
     textAlign: "center",
-    color: "#4A5F9EBB",
+    color: "#877F96",
   },
 }));
 
+// This component is to display the shelf books list as well as the search result
+// in case of search we don't pass `currentShelf` as it is not needed
+// `bookList` ia allBooks in case of shelf display or search result books in case of search display
 function Books({ bookList, onBookShelfChange, currentShelf }) {
   const classes = useStyles();
 
@@ -58,7 +61,11 @@ function Books({ bookList, onBookShelfChange, currentShelf }) {
               id={book.id}
               title={book.title}
               shelf={book.shelf}
-              image={book.imageLinks.thumbnail}
+              image={
+                book.imageLinks
+                  ? book.imageLinks.thumbnail
+                  : "/assets/no-thumbnail.jpg"
+              }
               authors={book.authors ? book.authors.join(",") : ""}
               onBookShelfChange={onBookShelfChange}
             />
