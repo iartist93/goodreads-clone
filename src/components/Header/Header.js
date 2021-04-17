@@ -6,7 +6,6 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import { Menu as MenuIcon, AccountCircle, Search } from "@material-ui/icons";
-
 import { Link, useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({

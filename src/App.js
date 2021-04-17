@@ -1,10 +1,12 @@
-import "./App.css";
-import { useEffect, useState } from "react";
-import * as BookAPI from "./services/BooksAPI.js";
+import "./styles/App.css";
 import "fontsource-roboto";
+
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import Homepage from "./Homepage";
-import SearchPage from "./SearchPage.js";
+import { useEffect, useState } from "react";
+
+import Homepage from "./pages/Homepage.js";
+import SearchPage from "./pages/SearchPage.js";
+import * as BookAPI from "./services/BooksAPI.js";
 
 function App() {
   const [allBooks, setAllBooks] = useState([]);
@@ -25,8 +27,8 @@ function App() {
 
   const searchBook = async (query) => {
     const result = await BookAPI.search(query);
-    console.log("---------------> Search Results");
-    console.log(result);
+    // console.log("---------------> Search Results");
+    // console.log(result);
     if (result && Array.isArray(result)) {
       const modifiedResult = result.map((currentBook) => {
         const found = allBooks.find((book) => book.id === currentBook.id);
@@ -40,6 +42,8 @@ function App() {
     }
   };
 
+  // can't add the function as dep. here as it `useState` will cause re-render
+  // and `useEffect` will run each re-render
   useEffect(() => {
     fetchAllBooks();
     searchBook();

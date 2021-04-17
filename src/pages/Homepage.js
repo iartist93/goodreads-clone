@@ -1,15 +1,10 @@
-import { useEffect, useState } from "react";
+import "fontsource-roboto";
 
 import { Container, Box } from "@material-ui/core";
 
-import * as BookAPI from "./services/BooksAPI.js";
-import Header from "./Header.js";
-import ShelfSelect from "./ShelfSelect.js";
-import Books from "./Books";
-
-import "fontsource-roboto";
-
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import Header from "../components/Header/Header.js";
+import ShelfSelect from "../components/Shelf/ShelfSelect.js";
+import Books from "../components/Books/Books.js";
 
 function Homepage({
   currentShelf,

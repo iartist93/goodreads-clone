@@ -1,6 +1,4 @@
 import { Box, makeStyles, FormControl, NativeSelect } from "@material-ui/core";
-import {} from "@material-ui/icons";
-import { useState } from "react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
