@@ -1,4 +1,4 @@
-# Udacity My Reads Project
+# Goodreads Clone
 
 This project is part of the [Udacity React Developer Nanodegree](https://www.udacity.com/course/react-nanodegree--nd019).
 
